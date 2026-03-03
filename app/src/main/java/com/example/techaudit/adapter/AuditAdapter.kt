@@ -10,7 +10,7 @@ import com.example.techaudit.model.AuditStatus
 
 //nos permite comunicar nuestro modelo con la vista
 class AuditAdapter(
-    private val listAuditoria: List<AuditItem>, // lista de auditores
+    private val listAuditoria: MutableList<AuditItem>, // lista de auditores
     private val onItemClick: (AuditItem) -> Unit // funcion lambda para seleccionar
 ) : RecyclerView.Adapter<AuditAdapter.AuditViewHolder>() {
 
@@ -26,6 +26,12 @@ class AuditAdapter(
 
     // cuantos datos tengo
     override fun getItemCount(): Int = listAuditoria.size
+
+    fun actualizarLista(nuevaLista: List<AuditItem>) {
+        listAuditoria.clear()
+        listAuditoria.addAll(nuevaLista)
+        notifyDataSetChanged()
+    }
 
     //pintar los datos
     override fun onBindViewHolder(holder: AuditViewHolder, position: Int) {
