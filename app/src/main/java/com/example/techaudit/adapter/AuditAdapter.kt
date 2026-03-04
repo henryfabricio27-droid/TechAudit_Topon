@@ -10,7 +10,8 @@ import com.example.techaudit.model.AuditStatus
 
 //nos permite comunicar nuestro modelo con la vista
 class AuditAdapter(
-    private val listAuditoria: MutableList<AuditItem>, // lista de auditores
+
+    public val listAuditoria: MutableList<AuditItem>, // lista de auditores
     private val onItemClick: (AuditItem) -> Unit // funcion lambda para seleccionar
 ) : RecyclerView.Adapter<AuditAdapter.AuditViewHolder>() {
 

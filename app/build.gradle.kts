@@ -61,4 +61,13 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion") // Para Corutinas
     ksp("androidx.room:room-compiler:$roomVersion")      // El procesador
 
+    // ViewModel y LiveData
+    val lifecycle_version = "2.7.0"
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+
+    // Retrofit para peticiones HTTP
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+// Gson Converter para transformar JSON a Data Classes automáticamente
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 }
