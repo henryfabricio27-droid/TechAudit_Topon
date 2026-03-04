@@ -1,35 +1,38 @@
 package com.example.techaudit.data
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
-
+import androidx.room.*
 import com.example.techaudit.model.AuditItem
+import com.example.techaudit.model.Laboratorio
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AuditDAO {
-    //Traer todos los equipos ordenados por fecha
-    @Query("SELECT * FROM equipos ORDER BY fechaRegistro DESC")
-    fun getAllItems() : Flow<List<AuditItem>>
+    
+    // --- CONSULTAS PARA LABORATORIOS ---
+    @Query("SELECT * FROM laboratorios ORDER BY nombre ASC")
+    fun getAllLaboratorios(): Flow<List<Laboratorio>>
 
-
-    //Buscar uno solo por ID
-    @Query("SELECT * FROM equipos WHERE id = :id")
-    suspend fun getById(id: String) : AuditItem
-
-    //Insertar un nuevo equipo
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(item: AuditItem)
+    suspend fun insertLaboratorio(laboratorio: Laboratorio)
 
-    //Actualizar un equipo
-    @Update
-    suspend fun update(item: AuditItem)
-
-    //Borrar un equipo
     @Delete
-    suspend fun delete(item: AuditItem)
+    suspend fun deleteLaboratorio(laboratorio: Laboratorio)
+
+    // --- CONSULTAS PARA EQUIPOS ---
+    
+    // Traer equipos de un laboratorio específico
+    @Query("SELECT * FROM equipos WHERE laboratorioId = :labId ORDER BY nombre ASC")
+    fun getEquiposByLaboratorio(labId: String): Flow<List<AuditItem>>
+
+    @Query("SELECT * FROM equipos")
+    suspend fun getAllEquiposStatic(): List<AuditItem> // Útil para sincronización
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertEquipo(item: AuditItem)
+
+    @Update
+    suspend fun updateEquipo(item: AuditItem)
+
+    @Delete
+    suspend fun deleteEquipo(item: AuditItem)
 }
