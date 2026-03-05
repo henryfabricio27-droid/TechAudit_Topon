@@ -8,9 +8,11 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface AuditDAO {
     
-    // --- CONSULTAS PARA LABORATORIOS ---
     @Query("SELECT * FROM laboratorios ORDER BY nombre ASC")
     fun getAllLaboratorios(): Flow<List<Laboratorio>>
+
+    @Query("SELECT * FROM laboratorios")
+    suspend fun getAllLaboratoriosStatic(): List<Laboratorio>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLaboratorio(laboratorio: Laboratorio)
@@ -18,14 +20,15 @@ interface AuditDAO {
     @Delete
     suspend fun deleteLaboratorio(laboratorio: Laboratorio)
 
-    // --- CONSULTAS PARA EQUIPOS ---
-    
-    // Traer equipos de un laboratorio específico
+
+    @Query("UPDATE equipos SET laboratorioId = :newId WHERE laboratorioId = :oldId")
+    suspend fun updateEquiposLabId(oldId: String, newId: String)
+
     @Query("SELECT * FROM equipos WHERE laboratorioId = :labId ORDER BY nombre ASC")
     fun getEquiposByLaboratorio(labId: String): Flow<List<AuditItem>>
 
     @Query("SELECT * FROM equipos")
-    suspend fun getAllEquiposStatic(): List<AuditItem> // Útil para sincronización
+    suspend fun getAllEquiposStatic(): List<AuditItem>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEquipo(item: AuditItem)

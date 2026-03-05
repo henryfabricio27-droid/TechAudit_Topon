@@ -6,20 +6,32 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
 
-    // Sincronizar laboratorios
-    @POST("laboratorios")
-    suspend fun syncLaboratorios(@Body laboratorios: List<Laboratorio>): Response<Unit>
+    @GET("laboratorios")
+    suspend fun getLaboratorios(): Response<List<Laboratorio>>
 
-    // Sincronizar equipos
+    @GET("equipos")
+    suspend fun getEquipos(): Response<List<AuditItem>>
+
+    @POST("laboratorios")
+    suspend fun syncLaboratorioIndividual(@Body laboratorio: Laboratorio): Response<Laboratorio>
+
     @POST("equipos")
-    suspend fun syncEquipos(@Body equipos: List<AuditItem>): Response<Unit>
+    suspend fun syncEquipoIndividual(@Body equipo: AuditItem): Response<AuditItem>
+
+    @DELETE("laboratorios/{id}")
+    suspend fun deleteLaboratorio(@Path("id") id: String): Response<Unit>
+
+    @DELETE("equipos/{id}")
+    suspend fun deleteEquipo(@Path("id") id: String): Response<Unit>
 
     companion object {
-        // URL de MockAPI
         private const val BASE_URL = "https://69a8a3c037caab4b8c62370b.mockapi.io/api/v1/"
 
         fun create(): ApiService {

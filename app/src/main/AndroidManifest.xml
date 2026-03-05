@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
         android:name=".TechAuditApp"
         android:allowBackup="true"
@@ -15,21 +14,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TechAudit">
+        
+        <activity
+            android:name=".EquiposActivity"
+            android:exported="false" />
+            
         <activity
             android:name=".AddEditActivity"
             android:exported="false" />
-        <activity
-            android:name=".addEditActivity"
-            android:exported="false" />
+            
         <activity
             android:name=".DetailActivity"
             android:exported="false" />
+            
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

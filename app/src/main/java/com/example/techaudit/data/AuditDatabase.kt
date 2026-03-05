@@ -8,7 +8,8 @@ import androidx.room.TypeConverters
 import com.example.techaudit.model.AuditItem
 import com.example.techaudit.model.Laboratorio
 
-@Database(entities = [Laboratorio::class, AuditItem::class], version = 2, exportSchema = false)
+// Subimos a la versión 3 debido a los cambios estructurales recientes
+@Database(entities = [Laboratorio::class, AuditItem::class], version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AuditDatabase : RoomDatabase() {
 
@@ -25,7 +26,8 @@ abstract class AuditDatabase : RoomDatabase() {
                     AuditDatabase::class.java,
                     "techaudit.db"
                 )
-                .fallbackToDestructiveMigration() // Para facilitar el desarrollo con cambios de esquema
+                // Crucial: Esto permite que la app se abra recreando las tablas si el esquema cambió
+                .fallbackToDestructiveMigration() 
                 .build()
                 INSTANCE = instance
                 instance

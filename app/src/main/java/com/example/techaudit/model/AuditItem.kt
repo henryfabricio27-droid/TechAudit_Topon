@@ -5,7 +5,15 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+
+enum class AuditStatus {
+    @SerializedName("PENDIENTE") PENDIENTE,
+    @SerializedName("OPERATIVO") OPERATIVO,
+    @SerializedName("DANIADO") DANIADO,
+    @SerializedName("NO_ENCONTRADO") NO_ENCONTRADO
+}
 
 @Parcelize
 @Entity(
@@ -22,11 +30,24 @@ import kotlinx.parcelize.Parcelize
 )
 data class AuditItem(
     @PrimaryKey
+    @SerializedName("id")
     val id: String,
+    
+    @SerializedName("nombre")
     val nombre: String,
-    val laboratorioId: String, // Relación con el laboratorio
+    
+    @SerializedName("laboratorioId")
+    val laboratorioId: String,
+    
+    @SerializedName("fechaRegistro")
     val fechaRegistro: String,
+    
+    @SerializedName("estado")
     var estado: AuditStatus = AuditStatus.PENDIENTE,
+    
+    @SerializedName("notas")
     var notas: String = "",
-    var fotoUri: String? = null
+    
+    // Este campo es solo local, no se envía a la API
+    var isSynced: Boolean = false
 ) : Parcelable

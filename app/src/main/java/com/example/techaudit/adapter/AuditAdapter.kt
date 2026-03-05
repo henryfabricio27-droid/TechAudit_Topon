@@ -10,7 +10,6 @@ import com.example.techaudit.model.AuditStatus
 
 //nos permite comunicar nuestro modelo con la vista
 class AuditAdapter(
-
     public val listAuditoria: MutableList<AuditItem>, // lista de auditores
     private val onItemClick: (AuditItem) -> Unit // funcion lambda para seleccionar
 ) : RecyclerView.Adapter<AuditAdapter.AuditViewHolder>() {
@@ -20,8 +19,7 @@ class AuditAdapter(
     // crear moldes
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AuditViewHolder {
         val binding = ItemAuditBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
-        )
+            LayoutInflater.from(parent.context), parent, false)
         return AuditViewHolder(binding)
     }
 
@@ -39,7 +37,10 @@ class AuditAdapter(
         val auditItem = listAuditoria[position]
 
         holder.binding.tvNombreEquipo.text = auditItem.nombre
-        holder.binding.tvUbicacion.text = auditItem.ubicacion
+        
+        // laboratorioId en lugar de ubicacion
+        holder.binding.tvUbicacion.text = "ID Laboratorio: ${auditItem.laboratorioId}"
+        
         holder.binding.tvEstadoLabel.text = auditItem.estado.name
 
         //logica visual
