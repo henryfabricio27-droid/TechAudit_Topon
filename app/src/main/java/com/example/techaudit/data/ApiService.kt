@@ -9,6 +9,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ApiService {
@@ -20,10 +21,16 @@ interface ApiService {
     suspend fun getEquipos(): Response<List<AuditItem>>
 
     @POST("laboratorios")
-    suspend fun syncLaboratorioIndividual(@Body laboratorio: Laboratorio): Response<Laboratorio>
+    suspend fun createLaboratorio(@Body laboratorio: Laboratorio): Response<Laboratorio>
+
+    @PUT("laboratorios/{id}")
+    suspend fun updateLaboratorio(@Path("id") id: String, @Body laboratorio: Laboratorio): Response<Laboratorio>
 
     @POST("equipos")
-    suspend fun syncEquipoIndividual(@Body equipo: AuditItem): Response<AuditItem>
+    suspend fun createEquipo(@Body equipo: AuditItem): Response<AuditItem>
+
+    @PUT("equipos/{id}")
+    suspend fun updateEquipo(@Path("id") id: String, @Body equipo: AuditItem): Response<AuditItem>
 
     @DELETE("laboratorios/{id}")
     suspend fun deleteLaboratorio(@Path("id") id: String): Response<Unit>
